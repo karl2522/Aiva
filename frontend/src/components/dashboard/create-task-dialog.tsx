@@ -158,7 +158,7 @@ export function CreateTaskDialog({
 
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label className="text-right">
-                            Time
+                            Time <span className="text-muted-foreground text-xs">(optional)</span>
                         </Label>
                         <div className="col-span-3 flex items-center gap-2">
                             <Input
