@@ -63,8 +63,8 @@ export function DashboardHeader({ selectedDate, onDateChange, view, onViewChange
                 <div className="flex items-center gap-2 md:gap-4">
                     <Tabs value={view} onValueChange={(v) => onViewChange(v as "week" | "month")}>
                         <TabsList>
-                            <TabsTrigger value="week">Week</TabsTrigger>
                             <TabsTrigger value="month">Month</TabsTrigger>
+                            <TabsTrigger value="week">Week</TabsTrigger>
                         </TabsList>
                     </Tabs>
 

@@ -1,53 +1,66 @@
-"use client"
-
 import { Task } from "@/db/db"
 import { cn } from "@/lib/utils"
 import { useDraggable } from "@dnd-kit/core"
 import { CSS } from "@dnd-kit/utilities"
+import { CalendarTaskCard } from "./calendar-task-card"
 import { TaskContextMenu } from "./task-context-menu"
 
 interface DraggableCalendarTaskProps {
     task: Task
     isMonthView?: boolean
+    style?: React.CSSProperties
 }
 
-export function DraggableCalendarTask({ task, isMonthView }: DraggableCalendarTaskProps) {
+export function DraggableCalendarTask({ task, isMonthView, style: propStyle }: DraggableCalendarTaskProps) {
+    const isTimed = !!task.startTime;
+
     const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
         id: `calendar-${task.id}`,
-        data: { ...task, origin: 'calendar' }
+        data: { ...task, origin: 'calendar', isMonthView }, // Pass isMonthView in data for DragOverlay logic
+        disabled: isTimed
     });
 
-    const style = transform ? {
+    const transformStyle = transform ? {
         transform: CSS.Translate.toString(transform),
         zIndex: 50,
+        transition: 'transform 0.2s ease-out',
     } : undefined;
 
+    const combinedStyle = {
+        ...transformStyle,
+        ...propStyle,
+    };
+
     if (isDragging) {
-        // Leave a ghost placeholder or nothing? 
-        // Usually rendering with lower opacity is good.
         return (
-            <div
-                ref={setNodeRef}
-                className={cn(
-                    "bg-white border-l-[3px] border-green-500 rounded text-xs shadow-sm opacity-50 pointer-events-none",
-                    isMonthView ? "px-2 py-1 text-[10px]" : "pl-2 py-1.5"
-                )}
-                style={style}
-            >
-                <p className="truncate font-semibold text-gray-800 leading-tight">{task.title}</p>
+            <div ref={setNodeRef} style={combinedStyle}>
+                <CalendarTaskCard
+                    task={task}
+                    isMonthView={isMonthView}
+                    className="opacity-0 pointer-events-none"
+                />
             </div>
         )
     }
 
     return (
-        <div ref={setNodeRef} style={style} {...listeners} {...attributes} className="pointer-events-auto relative z-10 touch-none">
+        <div
+            id={`calendar-${task.id}`}
+            ref={setNodeRef}
+            style={{ ...transformStyle, ...propStyle }}
+            {...listeners}
+            {...attributes}
+            className="pointer-events-auto relative z-10 touch-none"
+        >
             <TaskContextMenu taskId={task.id}>
-                <div className={cn(
-                    "bg-white border-l-[3px] border-green-500 rounded text-xs shadow-sm hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing truncate group/task",
-                    isMonthView ? "px-2 py-1 text-[10px]" : "pl-2 py-1.5"
-                )}>
-                    <p className="truncate font-semibold text-gray-800 leading-tight">{task.title}</p>
-                </div>
+                <CalendarTaskCard
+                    task={task}
+                    isMonthView={isMonthView}
+                    className={cn(
+                        "h-full group/task transition-shadow",
+                        isTimed ? "cursor-default" : "hover:shadow-md cursor-grab active:cursor-grabbing"
+                    )}
+                />
             </TaskContextMenu>
         </div>
     )

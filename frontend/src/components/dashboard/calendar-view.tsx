@@ -41,10 +41,40 @@ function CalendarSlot({ day, hour, tasks }: { day: Date, hour: number, tasks?: T
             )}
 
             {/* Render Tasks */}
-            <div className="absolute inset-0 p-1 space-y-1 overflow-hidden pointer-events-none">
-                {tasks?.map(task => (
-                    <DraggableCalendarTask key={task.id} task={task} />
-                ))}
+            <div className="absolute inset-0 p-1 pointer-events-none z-10" style={{ overflow: 'visible' }}>
+                {tasks?.map(task => {
+                    // Calculate duration
+                    let durationMinutes = 60;
+                    let startMinutes = 0;
+
+                    if (task.startTime && task.endTime) {
+                        const [startH, startM] = task.startTime.split(':').map(Number);
+                        const [endH, endM] = task.endTime.split(':').map(Number);
+                        const startTotal = startH * 60 + startM;
+                        const endTotal = endH * 60 + endM;
+                        durationMinutes = endTotal - startTotal;
+                        startMinutes = startM; // We only care about minutes offset within the hour slot
+                    }
+
+                    // 1 hour (60 min) = 80px (h-20)
+                    const height = (durationMinutes / 60) * 80;
+                    const top = (startMinutes / 60) * 80;
+
+                    return (
+                        <DraggableCalendarTask
+                            key={task.id}
+                            task={task}
+                            style={{
+                                height: `${Math.max(height, 40)}px`,
+                                position: 'absolute',
+                                top: `${top}px`,
+                                left: '4px',
+                                width: 'calc(100% - 8px)',
+                                zIndex: 20
+                            }}
+                        />
+                    )
+                })}
             </div>
         </div>
     )

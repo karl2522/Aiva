@@ -9,6 +9,8 @@ export interface Task {
     createdAt: Date;
     scheduledDate?: Date; // For calendar
     duration?: number; // In minutes
+    startTime?: string; // "HH:mm"
+    endTime?: string; // "HH:mm"
     order: number; // For sorting in the list
 }
 
