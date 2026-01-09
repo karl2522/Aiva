@@ -142,7 +142,7 @@ export function CreateTaskDialog({
                             List
                         </Label>
                         <Select value={listId} onValueChange={setListId}>
-                            <SelectTrigger className="col-span-3">
+                            <SelectTrigger className="col-span-3 cursor-pointer">
                                 <SelectValue placeholder="Select a list" />
                             </SelectTrigger>
                             <SelectContent>
@@ -159,7 +159,7 @@ export function CreateTaskDialog({
                     </div>
                 </form>
                 <DialogFooter>
-                    <Button type="submit" onClick={handleSubmit} disabled={!title.trim() || isLoading}>
+                    <Button type="submit" onClick={handleSubmit} disabled={!title.trim() || isLoading} className="cursor-pointer">
                         {isLoading ? "Saving..." : "Create Task"}
                     </Button>
                 </DialogFooter>

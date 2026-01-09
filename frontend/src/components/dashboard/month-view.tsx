@@ -47,7 +47,7 @@ function MonthCell({ day, date, tasks }: { day: Date, date: Date, tasks?: Task[]
                 defaultDate={day}
                 defaultHour={9} // Default to 9 AM for month view
                 trigger={
-                    <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
                         <div className="absolute bottom-1 right-1">
                             <span className="text-xl text-muted-foreground/50 hover:text-green-600 cursor-pointer">+</span>
                         </div>
