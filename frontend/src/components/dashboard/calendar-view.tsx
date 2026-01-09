@@ -25,7 +25,7 @@ function CalendarSlot({ day, hour, tasks }: { day: Date, hour: number, tasks?: T
                 defaultDate={day}
                 defaultHour={hour}
                 trigger={
-                    <div className="absolute inset-0 z-0">
+                    <div className="absolute inset-0 z-0 cursor-pointer">
                         {/* Plus icon on hover to simulate add action */}
                         <div className={`absolute top-1 left-2 transition-opacity pointer-events-none ${isOver || (tasks && tasks.length > 0) ? 'opacity-0' : 'opacity-0 group-hover:opacity-100'}`}>
                             <span className="text-xs text-gray-400 font-medium">+</span>

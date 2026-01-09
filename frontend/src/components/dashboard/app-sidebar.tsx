@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useLists } from "@/hooks/use-lists";
 import { Plus } from "lucide-react";
+import { CreateListDialog } from "./create-list-dialog";
 import { CreateTaskDialog } from "./create-task-dialog";
 import { TaskList } from "./task-list";
 
@@ -32,7 +33,7 @@ export function AppSidebar({ className, isOpen = true }: AppSidebarProps) {
             <div className="p-3 pb-0">
                 <CreateTaskDialog
                     trigger={
-                        <Button className="w-full bg-white hover:bg-white/50 text-muted-foreground hover:text-foreground border border-border justify-start gap-2 h-9 text-sm font-medium transition-all shadow-sm hover:shadow-md">
+                        <Button className="w-full bg-white hover:bg-white/50 text-muted-foreground hover:text-foreground border border-border justify-start gap-2 h-9 text-sm font-medium transition-all shadow-sm hover:shadow-md cursor-pointer">
                             <Plus className="w-4 h-4" /> Add Task
                         </Button>
                     }
@@ -41,11 +42,16 @@ export function AppSidebar({ className, isOpen = true }: AppSidebarProps) {
 
             {/* Task Lists */}
             <ScrollArea className="flex-1 px-3 py-4">
+
                 <div className="flex items-center justify-between px-2 mb-2">
                     <h3 className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">My Lists</h3>
-                    <Button variant="ghost" size="icon" className="h-4 w-4 text-muted-foreground hover:text-foreground">
-                        <Plus className="w-3 h-3" />
-                    </Button>
+                    <CreateListDialog
+                        trigger={
+                            <Button variant="ghost" size="icon" className="h-4 w-4 text-muted-foreground hover:text-foreground cursor-pointer">
+                                <Plus className="w-3 h-3" />
+                            </Button>
+                        }
+                    />
                 </div>
                 <div className="space-y-1">
                     {lists?.map(list => (
@@ -56,6 +62,9 @@ export function AppSidebar({ className, isOpen = true }: AppSidebarProps) {
 
             {/* Footer / User Rail */}
             <div className="p-4 border-t border-border bg-sidebar/30">
+                <div className="mb-3 text-[10px] text-muted-foreground/60 text-center select-none">
+                    Tip: Right-click items to delete
+                </div>
                 <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl p-4 border border-border shadow-sm relative overflow-hidden group">
                     <div className="absolute inset-0 bg-gradient-to-tr from-green-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
