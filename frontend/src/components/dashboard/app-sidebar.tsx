@@ -20,9 +20,9 @@ export function AppSidebar({ className, isOpen = true }: AppSidebarProps) {
     if (!isOpen) return null;
 
     return (
-        <div className={`flex flex-col h-full bg-sidebar/50 text-foreground w-80 border-r border-border flex-shrink-0 transition-all duration-300 backdrop-blur-xl ${className}`}>
+        <div className={`flex flex-col h-full bg-slate-50/80 text-foreground w-80 border-r border-slate-200 flex-shrink-0 transition-all duration-300 backdrop-blur-xl ${className}`}>
             {/* Header */}
-            <div className="p-4 border-b border-border flex items-center justify-between h-[65px] bg-sidebar/50">
+            <div className="p-4 border-b border-slate-200 flex items-center justify-between h-[65px] bg-slate-100/50">
                 <div className="flex items-center gap-3">
                     <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-green-500/20">A</div>
                     <span className="font-bold text-lg tracking-tight font-sans text-foreground">Aiva</span>
@@ -61,7 +61,7 @@ export function AppSidebar({ className, isOpen = true }: AppSidebarProps) {
             </ScrollArea>
 
             {/* Footer / User Rail */}
-            <div className="p-4 border-t border-border bg-sidebar/30">
+            <div className="p-4 border-t border-slate-200 bg-slate-100/30">
                 <div className="mb-3 text-[10px] text-muted-foreground/60 text-center select-none">
                     Tip: Right-click items to delete
                 </div>

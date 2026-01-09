@@ -44,7 +44,7 @@ export function DashboardHeader({ selectedDate, onDateChange, view, onViewChange
     }
 
     return (
-        <div className="border-b border-border bg-background p-4 md:p-6">
+        <div className="border-b border-slate-200 bg-slate-50/80 p-4 md:p-6">
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                 <div className="flex items-center gap-2 md:gap-4">
                     <div className="text-lg md:text-xl font-bold text-foreground">
