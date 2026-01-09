@@ -11,16 +11,9 @@ export function CTASection() {
                 <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed text-balance">
                     Join thousands of users who are already saving hours every week with intelligent task management.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+                <div className="flex justify-center pt-4">
                     <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground text-base">
-                        Start Your Free Trial <ArrowRight className="ml-2 w-5 h-5" />
-                    </Button>
-                    <Button
-                        size="lg"
-                        variant="outline"
-                        className="border-background text-background hover:bg-muted/20 text-base bg-transparent"
-                    >
-                        Schedule Demo
+                        Launch App <ArrowRight className="ml-2 w-5 h-5" />
                     </Button>
                 </div>
             </div>

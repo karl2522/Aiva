@@ -30,20 +30,13 @@ export default function Navbar() {
                             <Link href="#how-it-works" className="text-foreground hover:text-accent transition-colors font-medium">
                                 How It Works
                             </Link>
-                            <Link href="#pricing" className="text-foreground hover:text-accent transition-colors font-medium">
-                                Pricing
-                            </Link>
                             <Link href="#" className="text-foreground hover:text-accent transition-colors font-medium">
                                 About
                             </Link>
                         </div>
 
-                        {/* Desktop CTA Buttons */}
                         <div className="hidden md:flex items-center gap-3">
-                            <Button variant="outline" className="border-border text-foreground hover:bg-muted bg-transparent">
-                                Sign In
-                            </Button>
-                            <Button className="bg-accent hover:bg-accent/90 text-accent-foreground">Get Started</Button>
+                            <Button className="bg-accent hover:bg-accent/90 text-accent-foreground">Launch App</Button>
                         </div>
 
                         {/* Mobile Menu Toggle */}
@@ -74,13 +67,6 @@ export default function Navbar() {
                                 How It Works
                             </Link>
                             <Link
-                                href="#pricing"
-                                className="block px-4 py-2 text-foreground hover:bg-muted rounded-lg transition-colors"
-                                onClick={() => setIsOpen(false)}
-                            >
-                                Pricing
-                            </Link>
-                            <Link
                                 href="#"
                                 className="block px-4 py-2 text-foreground hover:bg-muted rounded-lg transition-colors"
                                 onClick={() => setIsOpen(false)}
@@ -88,13 +74,7 @@ export default function Navbar() {
                                 About
                             </Link>
                             <div className="flex flex-col gap-2 pt-2">
-                                <Button
-                                    variant="outline"
-                                    className="w-full border-border text-foreground hover:bg-muted bg-transparent"
-                                >
-                                    Sign In
-                                </Button>
-                                <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">Get Started</Button>
+                                <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">Launch App</Button>
                             </div>
                         </div>
                     )}
