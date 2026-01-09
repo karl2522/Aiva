@@ -27,17 +27,9 @@ export function HeroSection() {
                             eliminate distractions, and achieve your goals with intelligent task management.
                         </p>
 
-                        {/* CTA Buttons */}
                         <div className="flex flex-col sm:flex-row gap-4 pt-4">
                             <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground text-base font-medium">
-                                Start Free Trial <ArrowRight className="ml-2 w-5 h-5" />
-                            </Button>
-                            <Button
-                                size="lg"
-                                variant="outline"
-                                className="border-border text-foreground hover:bg-muted text-base bg-transparent font-medium"
-                            >
-                                Watch Demo
+                                Launch App <ArrowRight className="ml-2 w-5 h-5" />
                             </Button>
                         </div>
 
