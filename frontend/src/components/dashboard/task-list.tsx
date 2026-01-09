@@ -14,21 +14,17 @@ export function TaskList({ list }: { list: TaskListType }) {
 
     return (
         <Accordion type="single" collapsible defaultValue={list.id} className="w-full border-none shadow-none">
-
-
             <AccordionItem value={list.id} className="border-none">
-                <div className="flex items-center py-2 px-2 rounded-md hover:bg-muted/50 transition-colors group w-full">
+                <div className="flex items-center gap-2 py-2 px-2 rounded-md hover:bg-muted/50 data-[state=open]:bg-muted/50 group transition-colors">
                     <ListContextMenu list={list}>
-                        <div className="flex flex-1 items-center gap-2 cursor-pointer select-none">
+                        <div className="flex items-center gap-2 flex-1 cursor-pointer">
                             <div className="w-2 h-2 rounded-full ring-1 ring-inset ring-black/5" style={{ backgroundColor: list.color }} />
-                            <span className="text-sm font-medium text-foreground">{list.name}</span>
-                            <span className="ml-auto text-xs text-muted-foreground mr-2">{count}</span>
+                            <span className="text-sm font-medium text-foreground group-hover:text-foreground transition-colors">{list.name}</span>
+                            <span className="ml-auto text-xs text-muted-foreground">{count}</span>
                         </div>
                     </ListContextMenu>
-
-                    <AccordionTrigger className="flex-none w-auto p-0 py-0 hover:no-underline !no-underline shadow-none bg-transparent h-6 w-6 flex items-center justify-center rounded-sm hover:bg-muted/80">
-                        {/* Empty content, only Chevron renders */}
-                        <span className="sr-only">Toggle</span>
+                    <AccordionTrigger className="p-1 hover:no-underline [&[data-state=open]>svg]:rotate-180 shrink-0 cursor-pointer">
+                        {/* Chevron will render here */}
                     </AccordionTrigger>
                 </div>
                 <AccordionContent className="pt-2 pl-2 pr-1 pb-2">

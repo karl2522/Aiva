@@ -41,7 +41,7 @@ export function AppSidebar({ className, isOpen = true }: AppSidebarProps) {
             </div>
 
             {/* Task Lists */}
-            <ScrollArea className="flex-1 px-3 py-4">
+            <ScrollArea className="flex-1 px-3 py-4 overflow-y-auto overflow-x-hidden">
 
                 <div className="flex items-center justify-between px-2 mb-2">
                     <h3 className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">My Lists</h3>
@@ -53,7 +53,7 @@ export function AppSidebar({ className, isOpen = true }: AppSidebarProps) {
                         }
                     />
                 </div>
-                <div className="space-y-1">
+                <div className="space-y-1 overflow-hidden max-w-full">
                     {lists?.map(list => (
                         <TaskList key={list.id} list={list} />
                     ))}

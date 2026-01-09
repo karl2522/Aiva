@@ -1,6 +1,7 @@
 "use client"
 
 import { AppSidebar } from "@/components/dashboard/app-sidebar"
+import { CalendarTaskCard } from "@/components/dashboard/calendar-task-card"
 import { CalendarView } from "@/components/dashboard/calendar-view"
 import { DashboardHeader } from "@/components/dashboard/header"
 import { Card } from "@/components/ui/card"
@@ -15,23 +16,38 @@ export default function DashboardPage() {
     const [selectedDate, setSelectedDate] = useState(new Date())
     const [view, setView] = useState<"week" | "month">("month")
     const [sidebarOpen, setSidebarOpen] = useState(true)
-    const [activeTask, setActiveTask] = useState<(Task & { origin?: 'sidebar' | 'calendar' }) | null>(null)
+    const [activeTask, setActiveTask] = useState<(Task & { origin?: 'sidebar' | 'calendar', isMonthView?: boolean }) | null>(null)
+    const [dragDimensions, setDragDimensions] = useState<{ width: number, height: number } | null>(null)
 
     const sensors = useSensors(useSensor(PointerSensor, {
         activationConstraint: {
-            distance: 8,
+            distance: 3,
+            tolerance: 5,
         },
     }))
 
     function handleDragStart(event: DragStartEvent) {
         if (event.active.data.current) {
-            setActiveTask(event.active.data.current as Task & { origin?: 'sidebar' | 'calendar' })
+            setActiveTask(event.active.data.current as Task & { origin?: 'sidebar' | 'calendar', isMonthView?: boolean })
+
+            // Capture dimensions of the dragged element
+            const activeNode = event.active.data.current?.origin === 'calendar'
+                ? document.getElementById(`calendar-${event.active.data.current.id}`)
+                : null;
+
+            if (activeNode) {
+                const rect = activeNode.getBoundingClientRect();
+                setDragDimensions({ width: rect.width, height: rect.height });
+            } else {
+                setDragDimensions(null);
+            }
         }
     }
 
     async function handleDragEnd(event: DragEndEvent) {
         const { active, over } = event;
         setActiveTask(null);
+        setDragDimensions(null);
 
         if (over && over.data.current && active.data.current) {
             const task = active.data.current as Task;
@@ -81,9 +97,12 @@ export default function DashboardPage() {
                 <DragOverlay>
                     {activeTask ? (
                         activeTask.origin === 'calendar' ? (
-                            <div className="bg-white border-l-[3px] border-green-500 rounded px-2 py-1 text-xs shadow-xl opacity-90 cursor-grabbing w-32 truncate">
-                                <p className="font-semibold text-gray-800 leading-tight">{activeTask.title}</p>
-                            </div>
+                            <CalendarTaskCard
+                                task={activeTask}
+                                isMonthView={activeTask.isMonthView}
+                                className="cursor-grabbing shadow-2xl opacity-90"
+                                style={dragDimensions ? { width: dragDimensions.width, height: dragDimensions.height } : undefined}
+                            />
                         ) : (
                             <div className="w-64 opacity-90 rotate-2 cursor-grabbing">
                                 <Card className="p-3 bg-card border-border shadow-xl text-left">

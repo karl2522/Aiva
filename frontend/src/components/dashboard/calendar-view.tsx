@@ -45,23 +45,33 @@ function CalendarSlot({ day, hour, tasks }: { day: Date, hour: number, tasks?: T
                 {tasks?.map(task => {
                     // Calculate duration
                     let durationMinutes = 60;
+                    let startMinutes = 0;
+
                     if (task.startTime && task.endTime) {
                         const [startH, startM] = task.startTime.split(':').map(Number);
                         const [endH, endM] = task.endTime.split(':').map(Number);
                         const startTotal = startH * 60 + startM;
                         const endTotal = endH * 60 + endM;
                         durationMinutes = endTotal - startTotal;
+                        startMinutes = startM; // We only care about minutes offset within the hour slot
                     }
+
                     // 1 hour (60 min) = 80px (h-20)
-                    // We subtract a small amount for padding/borders if we want distinct blocks, 
-                    // but for a continuous block look we can use full height.
                     const height = (durationMinutes / 60) * 80;
+                    const top = (startMinutes / 60) * 80;
 
                     return (
                         <DraggableCalendarTask
                             key={task.id}
                             task={task}
-                            style={{ height: `${Math.max(height, 40)}px` }} // Min height 30min
+                            style={{
+                                height: `${Math.max(height, 40)}px`,
+                                position: 'absolute',
+                                top: `${top}px`,
+                                left: '4px',
+                                width: 'calc(100% - 8px)',
+                                zIndex: 20
+                            }}
                         />
                     )
                 })}
