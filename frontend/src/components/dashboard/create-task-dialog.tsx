@@ -40,6 +40,9 @@ export function CreateTaskDialog({
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const [listId, setListId] = useState(defaultListId)
+    const [startTime, setStartTime] = useState(defaultHour !== undefined ? `${defaultHour.toString().padStart(2, '0')}:00` : "")
+    const [endTime, setEndTime] = useState("")
+
     const lists = useLists()
     const [isLoading, setIsLoading] = useState(false)
     const [internalOpen, setInternalOpen] = useState(false)
@@ -60,6 +63,8 @@ export function CreateTaskDialog({
                 setTitle("")
                 setDescription("")
                 setListId(defaultListId)
+                setStartTime(defaultHour !== undefined ? `${defaultHour.toString().padStart(2, '0')}:00` : "")
+                setEndTime("")
             }, 300)
         }
     }
@@ -72,8 +77,19 @@ export function CreateTaskDialog({
         try {
             let scheduledDate: Date | undefined = undefined;
 
-            if (defaultDate && defaultHour !== undefined) {
-                // If created from Calendar slot
+            if (startTime) {
+                // If user selected a time, we schedule it!
+                // Use the context date (if clicked on calendar) OR today (if clicked via sidebar)
+                const baseDate = defaultDate ? new Date(defaultDate) : new Date();
+                const [hours, minutes] = startTime.split(':').map(Number);
+                baseDate.setHours(hours);
+                baseDate.setMinutes(minutes);
+                baseDate.setSeconds(0);
+                baseDate.setMilliseconds(0);
+                scheduledDate = baseDate;
+            } else if (defaultDate && defaultHour !== undefined) {
+                // If created from Calendar slot but NO manual time set (user just clicked slot)
+                // We use that slot time.
                 scheduledDate = new Date(defaultDate);
                 scheduledDate.setHours(defaultHour);
                 scheduledDate.setMinutes(0);
@@ -87,7 +103,9 @@ export function CreateTaskDialog({
                 listId,
                 createdAt: new Date(),
                 scheduledDate,
-                order: Date.now(), // simple ordering
+                startTime: startTime || undefined,
+                endTime: endTime || undefined,
+                order: Date.now(),
             })
 
             toast.success("Task created successfully")
@@ -120,7 +138,7 @@ export function CreateTaskDialog({
                             id="title"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            placeholder="Buy groceries"
+                            placeholder="Study for Finals"
                             className="col-span-3"
                             autoFocus
                         />
@@ -133,10 +151,32 @@ export function CreateTaskDialog({
                             id="desc"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
-                            placeholder="Milk, eggs, bread..."
+                            placeholder="Chapters 4-5"
                             className="col-span-3 resize-none"
                         />
                     </div>
+
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label className="text-right">
+                            Time
+                        </Label>
+                        <div className="col-span-3 flex items-center gap-2">
+                            <Input
+                                type="time"
+                                value={startTime}
+                                onChange={(e) => setStartTime(e.target.value)}
+                                className="flex-1 cursor-pointer"
+                            />
+                            <span className="text-muted-foreground text-xs font-medium">to</span>
+                            <Input
+                                type="time"
+                                value={endTime}
+                                onChange={(e) => setEndTime(e.target.value)}
+                                className="flex-1 cursor-pointer"
+                            />
+                        </div>
+                    </div>
+
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="list" className="text-right">
                             List

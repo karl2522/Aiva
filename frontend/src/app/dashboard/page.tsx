@@ -13,7 +13,7 @@ import { MonthView } from "@/components/dashboard/month-view"
 
 export default function DashboardPage() {
     const [selectedDate, setSelectedDate] = useState(new Date())
-    const [view, setView] = useState<"week" | "month">("week")
+    const [view, setView] = useState<"week" | "month">("month")
     const [sidebarOpen, setSidebarOpen] = useState(true)
     const [activeTask, setActiveTask] = useState<(Task & { origin?: 'sidebar' | 'calendar' }) | null>(null)
 
