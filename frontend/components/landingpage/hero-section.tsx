@@ -134,6 +134,8 @@ export function HeroSection() {
                                 </div>
                             </div>
 
+
+
                             {/* Floating Stats Card */}
                             <div className="absolute -bottom-8 -left-12 bg-white rounded-xl shadow-lg p-4 border border-border/50 w-40">
                                 <div className="text-center">
