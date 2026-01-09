@@ -27,9 +27,9 @@ function MonthCell({ day, date, tasks }: { day: Date, date: Date, tasks?: Task[]
     return (
         <div
             ref={setNodeRef}
-            className={`min-h-[120px] border-b border-r bg-background p-2 transition-colors relative group
-                ${!isCurrentMonth ? 'bg-muted/30 text-muted-foreground' : ''}
-                ${isOver ? 'bg-green-50 shadow-inner' : 'hover:bg-accent/5'}
+            className={`min-h-[120px] border-b border-r border-gray-100/50 dark:border-neutral-800 bg-background dark:bg-neutral-900 p-2 transition-colors relative group
+                ${!isCurrentMonth ? 'bg-muted/30 dark:bg-neutral-950/50 text-muted-foreground dark:text-neutral-600' : ''}
+                ${isOver ? 'bg-green-50 dark:bg-green-950/30 shadow-inner' : 'hover:bg-accent/5'}
             `}
         >
             <div className={`text-sm font-medium mb-1 ${isSameDay(day, new Date()) ? 'bg-green-600 text-white w-6 h-6 rounded-full flex items-center justify-center shadow-md' : ''}`}>
@@ -83,11 +83,11 @@ export function MonthView({ selectedDate }: { selectedDate: Date }) {
     const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
     return (
-        <div className="flex flex-col h-full bg-[#f5f4f0] overflow-hidden">
+        <div className="flex flex-col h-full bg-[#f5f4f0] dark:bg-neutral-900 overflow-hidden">
             {/* Weekday Headers */}
-            <div className="grid grid-cols-7 border-b border-border bg-white shadow-sm shrink-0">
+            <div className="grid grid-cols-7 border-b border-border dark:border-neutral-800 bg-white dark:bg-neutral-950 shadow-sm shrink-0">
                 {weekDays.map(d => (
-                    <div key={d} className="p-3 text-center border-r border-border last:border-r-0 text-xs font-semibold uppercase text-muted-foreground">
+                    <div key={d} className="p-3 text-center border-r border-border dark:border-neutral-800 last:border-r-0 text-xs font-semibold uppercase text-muted-foreground">
                         {d}
                     </div>
                 ))}

@@ -158,21 +158,21 @@ export function CreateTaskDialog({
 
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label className="text-right">
-                            Time
+                            Time <span className="text-muted-foreground text-xs">(optional)</span>
                         </Label>
                         <div className="col-span-3 flex items-center gap-2">
                             <Input
                                 type="time"
                                 value={startTime}
                                 onChange={(e) => setStartTime(e.target.value)}
-                                className="flex-1 cursor-pointer"
+                                className="flex-1 cursor-pointer [color-scheme:light] dark:[color-scheme:dark]"
                             />
                             <span className="text-muted-foreground text-xs font-medium">to</span>
                             <Input
                                 type="time"
                                 value={endTime}
                                 onChange={(e) => setEndTime(e.target.value)}
-                                className="flex-1 cursor-pointer"
+                                className="flex-1 cursor-pointer [color-scheme:light] dark:[color-scheme:dark]"
                             />
                         </div>
                     </div>

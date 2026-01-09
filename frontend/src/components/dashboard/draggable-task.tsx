@@ -59,7 +59,7 @@ export function DraggableTask({ task }: { task: Task }) {
             className="max-w-full overflow-hidden"
         >
             <TaskContextMenu taskId={task.id}>
-                <Card className="p-3 bg-card hover:bg-accent/5 border-border hover:border-accent/20 text-left transition-all cursor-grab active:cursor-grabbing group shadow-sm hover:shadow-md overflow-hidden">
+                <Card className="p-3 bg-card dark:bg-neutral-900 hover:bg-accent/5 dark:hover:bg-neutral-800/50 border-border dark:border-neutral-800 hover:border-accent/20 dark:hover:border-neutral-700 text-left transition-all cursor-grab active:cursor-grabbing group shadow-sm hover:shadow-md overflow-hidden">
                     <div className="flex items-start gap-2 overflow-hidden">
                         <span className="mt-0.5 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors shrink-0">
                             <GripVertical className="w-4 h-4" />

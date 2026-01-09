@@ -19,7 +19,7 @@ function CalendarSlot({ day, hour, tasks }: { day: Date, hour: number, tasks?: T
     });
 
     return (
-        <div ref={setNodeRef} className={`h-20 border-b border-gray-100/50 transition-colors group relative cursor-pointer ${isOver ? 'bg-green-50 shadow-inner' : 'hover:bg-gray-50/80'}`}>
+        <div ref={setNodeRef} className={`h-20 border-b border-gray-100/50 dark:border-neutral-800 transition-colors group relative cursor-pointer ${isOver ? 'bg-green-50 dark:bg-green-950/30 shadow-inner' : 'hover:bg-gray-50/80 dark:hover:bg-neutral-800/50'}`}>
 
             <CreateTaskDialog
                 defaultDate={day}
@@ -28,7 +28,7 @@ function CalendarSlot({ day, hour, tasks }: { day: Date, hour: number, tasks?: T
                     <div className="absolute inset-0 z-0 cursor-pointer">
                         {/* Plus icon on hover to simulate add action */}
                         <div className={`absolute top-1 left-2 transition-opacity pointer-events-none ${isOver || (tasks && tasks.length > 0) ? 'opacity-0' : 'opacity-0 group-hover:opacity-100'}`}>
-                            <span className="text-xs text-gray-400 font-medium">+</span>
+                            <span className="text-xs text-gray-400 dark:text-neutral-500 font-medium">+</span>
                         </div>
                     </div>
                 }
@@ -36,7 +36,7 @@ function CalendarSlot({ day, hour, tasks }: { day: Date, hour: number, tasks?: T
 
             {isOver && (
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
-                    <span className="text-xs text-green-600 font-medium bg-green-100 px-2 py-1 rounded-full shadow-sm">Drop here</span>
+                    <span className="text-xs text-green-600 dark:text-green-400 font-medium bg-green-100 dark:bg-green-950/50 px-2 py-1 rounded-full shadow-sm">Drop here</span>
                 </div>
             )}
 
@@ -87,16 +87,16 @@ export function CalendarView({ selectedDate }: { selectedDate: Date }) {
     const allTasks = useTasks();
 
     return (
-        <div className="flex flex-col h-full bg-[#f5f4f0] text-gray-900 overflow-hidden">
+        <div className="flex flex-col h-full bg-[#f5f4f0] dark:bg-neutral-900 text-gray-900 dark:text-foreground overflow-hidden">
             {/* Calendar Header - Days */}
-            <div className="grid grid-cols-8 border-b border-gray-200 bg-white shadow-sm z-10 w-full shrink-0">
-                <div className="p-4 border-r border-gray-100 bg-gray-50/50"></div> {/* Time Col Header */}
+            <div className="grid grid-cols-8 border-b border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 shadow-sm z-10 w-full shrink-0">
+                <div className="p-4 border-r border-gray-100 dark:border-neutral-800 bg-gray-50/50 dark:bg-neutral-900/50"></div> {/* Time Col Header */}
                 {days.map(day => (
-                    <div key={day.toISOString()} className="p-3 text-center border-r border-gray-100 last:border-r-0 bg-white">
-                        <div className="text-xs font-medium text-gray-500 uppercase mb-1">{format(day, 'EEE')}</div>
+                    <div key={day.toISOString()} className="p-3 text-center border-r border-gray-100 dark:border-neutral-800 last:border-r-0 bg-white dark:bg-neutral-950">
+                        <div className="text-xs font-medium text-gray-500 dark:text-neutral-400 uppercase mb-1">{format(day, 'EEE')}</div>
                         <div className={`text-xl font-bold ${day.toDateString() === new Date().toDateString()
-                            ? 'bg-green-600 text-white w-8 h-8 rounded-full flex items-center justify-center mx-auto shadow-md shadow-green-200'
-                            : 'text-gray-900'
+                            ? 'bg-green-600 text-white w-8 h-8 rounded-full flex items-center justify-center mx-auto shadow-md shadow-green-200 dark:shadow-green-900'
+                            : 'text-gray-900 dark:text-foreground'
                             }`}>
                             {format(day, 'd')}
                         </div>
@@ -106,12 +106,12 @@ export function CalendarView({ selectedDate }: { selectedDate: Date }) {
 
             {/* Scrollable Grid */}
             <ScrollArea className="flex-1 h-full">
-                <div className="grid grid-cols-8 relative min-w-[800px] bg-white pt-4 pb-20"> {/* Added padding for labels */}
+                <div className="grid grid-cols-8 relative min-w-[800px] bg-white dark:bg-neutral-900 pb-20"> {/* Removed pt-4 */}
                     {/* Time Column */}
-                    <div className="border-r border-gray-100 bg-gray-50/30">
+                    <div className="border-r border-gray-100 dark:border-neutral-800 bg-gray-50/30 dark:bg-neutral-950/30">
                         {hours.map(hour => (
-                            <div key={hour} className="h-20 border-b border-gray-100 text-[11px] text-gray-400 p-2 pr-3 text-right font-medium relative select-none">
-                                <span className="relative -top-3">
+                            <div key={hour} className="h-20 border-b border-gray-100 dark:border-neutral-800 text-[11px] text-gray-400 dark:text-neutral-500 p-2 pr-3 text-right font-medium relative select-none">
+                                <span>
                                     {hour === 0 ? '12 AM' :
                                         hour === 12 ? '12 PM' :
                                             hour > 12 ? `${hour - 12} PM` :
@@ -123,7 +123,7 @@ export function CalendarView({ selectedDate }: { selectedDate: Date }) {
 
                     {/* Day Columns */}
                     {days.map(day => (
-                        <div key={day.toISOString()} className="border-r border-gray-100 last:border-r-0 relative">
+                        <div key={day.toISOString()} className="border-r border-gray-100 dark:border-neutral-800 last:border-r-0 relative">
                             {/* Grid Lines corresponding to time */}
                             {hours.map(hour => {
                                 // Filter tasks for this slot
