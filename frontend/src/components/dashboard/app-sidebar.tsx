@@ -5,6 +5,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useLists } from "@/hooks/use-lists";
 import { useTheme } from "@/hooks/use-theme";
 import { Moon, Plus, Sun } from "lucide-react";
+import Image from "next/image";
 import { CreateListDialog } from "./create-list-dialog";
 import { CreateTaskDialog } from "./create-task-dialog";
 import { InboxList } from "./inbox-list";
@@ -27,7 +28,15 @@ export function AppSidebar({ className, isOpen = true }: AppSidebarProps) {
             {/* Header */}
             <div className="p-4 border-b border-slate-200 dark:border-neutral-800 flex items-center justify-between h-[65px] bg-slate-100/50 dark:bg-neutral-900/50">
                 <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-green-500/20">A</div>
+                    <div className="relative w-8 h-8">
+                        <Image
+                            src="/aiva-logo.png"
+                            alt="Aiva Logo"
+                            fill
+                            className="object-contain"
+                            sizes="32px"
+                        />
+                    </div>
                     <span className="font-bold text-lg tracking-tight font-sans text-foreground">Aiva</span>
                 </div>
                 <Button

@@ -1,9 +1,10 @@
 "use client"
 
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Menu, X } from "lucide-react"
+import Image from "next/image"
 import Link from "next/link"
+import { useState } from "react"
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false)
@@ -16,8 +17,13 @@ export default function Navbar() {
                     <div className="flex justify-between items-center h-16 sm:h-20">
                         {/* Logo / Brand */}
                         <Link href="/" className="flex items-center gap-2 group">
-                            <div className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center group-hover:shadow-lg transition-shadow">
-                                <span className="font-bold text-accent-foreground text-lg">A</span>
+                            <div className="relative w-10 h-10 rounded-lg overflow-hidden">
+                                <Image
+                                    src="/aiva-logo.png"
+                                    alt="Aiva"
+                                    fill
+                                    className="object-contain"
+                                />
                             </div>
                             <span className="text-xl font-bold text-foreground hidden sm:inline">Aiva</span>
                         </Link>
