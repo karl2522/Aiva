@@ -4,7 +4,7 @@ export interface Task {
     id: string;
     title: string;
     description?: string;
-    status: 'todo' | 'done' | 'in-progress';
+    status: 'backlog' | 'planned' | 'in_progress' | 'blocked' | 'done';
     listId: string; // 'personal', 'work', etc.
     createdAt: Date;
     scheduledDate?: Date; // For calendar
@@ -32,6 +32,26 @@ db.version(1).stores({
     lists: 'id, order'
 });
 
+// Migration to version 2: Normalize status values for Kanban
+db.version(2).stores({
+    tasks: 'id, listId, status, scheduledDate, order',
+    lists: 'id, order'
+}).upgrade(tx => {
+    return tx.table('tasks').toCollection().modify(task => {
+        // Normalize old status values to new Kanban-compatible values
+        if (task.status === 'todo') {
+            task.status = 'backlog';
+        } else if (task.status === 'in-progress') {
+            task.status = 'in_progress'; // Normalize hyphen to underscore
+        } else if (task.status === 'done') {
+            task.status = 'done'; // No change
+        } else {
+            // Fallback for unknown/legacy statuses
+            task.status = 'backlog';
+        }
+    });
+});
+
 db.on('populate', () => {
     db.lists.bulkAdd([
         { id: 'inbox', name: 'Inbox', color: '#64748b', order: 0 },
@@ -43,3 +63,4 @@ db.on('populate', () => {
 
 
 export { db };
+
