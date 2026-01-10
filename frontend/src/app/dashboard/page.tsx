@@ -10,13 +10,14 @@ import { DndContext, DragEndEvent, DragOverlay, DragStartEvent, PointerSensor, u
 import { GripVertical } from "lucide-react"
 import { useState } from "react"
 
+import { KanbanView } from "@/components/dashboard/kanban-view"
 import { MonthView } from "@/components/dashboard/month-view"
 
 export default function DashboardPage() {
     const [selectedDate, setSelectedDate] = useState(new Date())
-    const [view, setView] = useState<"week" | "month">("month")
+    const [view, setView] = useState<"week" | "month" | "kanban">("month")
     const [sidebarOpen, setSidebarOpen] = useState(true)
-    const [activeTask, setActiveTask] = useState<(Task & { origin?: 'sidebar' | 'calendar', isMonthView?: boolean }) | null>(null)
+    const [activeTask, setActiveTask] = useState<(Task & { origin?: 'sidebar' | 'calendar' | 'kanban', isMonthView?: boolean }) | null>(null)
     const [dragDimensions, setDragDimensions] = useState<{ width: number, height: number } | null>(null)
 
     const sensors = useSensors(useSensor(PointerSensor, {
@@ -51,25 +52,34 @@ export default function DashboardPage() {
 
         if (over && over.data.current && active.data.current) {
             const task = active.data.current as Task;
-            let newScheduledDate: Date;
 
-            if (over.data.current.isMonthView) {
-                // Month View Drop
-                newScheduledDate = new Date(over.data.current.day);
+            if (over.data.current.isKanban) {
+                // Kanban Column Drop - Only update status
+                await db.tasks.update(task.id, {
+                    status: over.data.current.status
+                });
+            } else if (over.data.current.isMonthView) {
+                // Month View Drop - Set date and status to 'planned'
+                const newScheduledDate = new Date(over.data.current.day);
                 newScheduledDate.setHours(9); // Default to 9 AM
                 newScheduledDate.setMinutes(0);
+
+                await db.tasks.update(task.id, {
+                    scheduledDate: newScheduledDate,
+                    status: 'planned'
+                });
             } else {
-                // Week View (CalendarSlot) Drop
+                // Week View (CalendarSlot) Drop - Set date/time and status to 'planned'
                 const overData = over.data.current as { day: Date, hour: number };
-                newScheduledDate = new Date(overData.day);
+                const newScheduledDate = new Date(overData.day);
                 newScheduledDate.setHours(overData.hour);
                 newScheduledDate.setMinutes(0);
-            }
 
-            await db.tasks.update(task.id, {
-                scheduledDate: newScheduledDate,
-                status: 'todo'
-            });
+                await db.tasks.update(task.id, {
+                    scheduledDate: newScheduledDate,
+                    status: 'planned'
+                });
+            }
         }
     }
 
@@ -89,8 +99,10 @@ export default function DashboardPage() {
                     />
                     {view === 'week' ? (
                         <CalendarView selectedDate={selectedDate} />
-                    ) : (
+                    ) : view === 'month' ? (
                         <MonthView selectedDate={selectedDate} />
+                    ) : (
+                        <KanbanView />
                     )}
                 </div>
 
@@ -103,6 +115,12 @@ export default function DashboardPage() {
                                 className="cursor-grabbing shadow-2xl opacity-90"
                                 style={dragDimensions ? { width: dragDimensions.width, height: dragDimensions.height } : undefined}
                             />
+                        ) : activeTask.origin === 'kanban' ? (
+                            <div className="w-64 opacity-90 cursor-grabbing">
+                                <Card className="p-3 bg-card border-border shadow-xl text-left">
+                                    <p className="text-sm text-foreground line-clamp-2 font-medium">{activeTask.title}</p>
+                                </Card>
+                            </div>
                         ) : (
                             <div className="w-64 opacity-90 rotate-2 cursor-grabbing">
                                 <Card className="p-3 bg-card border-border shadow-xl text-left">
