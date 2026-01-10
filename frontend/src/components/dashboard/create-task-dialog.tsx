@@ -33,7 +33,7 @@ export function CreateTaskDialog({
     open,
     onOpenChange,
     trigger,
-    defaultListId = "inbox",
+    defaultListId = "none",
     defaultDate,
     defaultHour
 }: CreateTaskDialogProps) {
@@ -99,8 +99,8 @@ export function CreateTaskDialog({
                 id: uuidv4(),
                 title,
                 description,
-                status: 'todo',
-                listId,
+                status: 'backlog',
+                listId: listId === 'none' ? '' : listId, // Convert 'none' to empty string
                 createdAt: new Date(),
                 scheduledDate,
                 startTime: startTime || undefined,
@@ -186,6 +186,13 @@ export function CreateTaskDialog({
                                 <SelectValue placeholder="Select a list" />
                             </SelectTrigger>
                             <SelectContent>
+                                {/* None option - goes to virtual Inbox */}
+                                <SelectItem value="none">
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-2 h-2 rounded-full bg-muted-foreground/30" />
+                                        <span className="text-muted-foreground">None (Inbox)</span>
+                                    </div>
+                                </SelectItem>
                                 {lists?.map((list) => (
                                     <SelectItem key={list.id} value={list.id}>
                                         <div className="flex items-center gap-2">

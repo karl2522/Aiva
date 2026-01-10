@@ -6,6 +6,7 @@ import { CalendarView } from "@/components/dashboard/calendar-view"
 import { DashboardHeader } from "@/components/dashboard/header"
 import { Card } from "@/components/ui/card"
 import { Task, db } from "@/db/db"
+import { applyTaskDrop } from "@/db/taskDomain"
 import { DndContext, DragEndEvent, DragOverlay, DragStartEvent, PointerSensor, useSensor, useSensors } from "@dnd-kit/core"
 import { GripVertical } from "lucide-react"
 import { useState } from "react"
@@ -29,7 +30,7 @@ export default function DashboardPage() {
 
     function handleDragStart(event: DragStartEvent) {
         if (event.active.data.current) {
-            setActiveTask(event.active.data.current as Task & { origin?: 'sidebar' | 'calendar', isMonthView?: boolean })
+            setActiveTask(event.active.data.current as Task & { origin?: 'sidebar' | 'calendar' | 'kanban', isMonthView?: boolean })
 
             // Capture dimensions of the dragged element
             const activeNode = event.active.data.current?.origin === 'calendar'
@@ -52,34 +53,33 @@ export default function DashboardPage() {
 
         if (over && over.data.current && active.data.current) {
             const task = active.data.current as Task;
+            const activeTaskData = active.data.current as Task & { origin?: string };
 
+            // Determine target type based on drop zone data
+            let targetType: 'calendar-week' | 'calendar-month' | 'kanban';
             if (over.data.current.isKanban) {
-                // Kanban Column Drop - Only update status
-                await db.tasks.update(task.id, {
-                    status: over.data.current.status
-                });
+                targetType = 'kanban';
             } else if (over.data.current.isMonthView) {
-                // Month View Drop - Set date and status to 'planned'
-                const newScheduledDate = new Date(over.data.current.day);
-                newScheduledDate.setHours(9); // Default to 9 AM
-                newScheduledDate.setMinutes(0);
-
-                await db.tasks.update(task.id, {
-                    scheduledDate: newScheduledDate,
-                    status: 'planned'
-                });
+                targetType = 'calendar-month';
             } else {
-                // Week View (CalendarSlot) Drop - Set date/time and status to 'planned'
-                const overData = over.data.current as { day: Date, hour: number };
-                const newScheduledDate = new Date(overData.day);
-                newScheduledDate.setHours(overData.hour);
-                newScheduledDate.setMinutes(0);
-
-                await db.tasks.update(task.id, {
-                    scheduledDate: newScheduledDate,
-                    status: 'planned'
-                });
+                targetType = 'calendar-week';
             }
+
+            // Use centralized domain logic to determine updates
+            const updates = applyTaskDrop({
+                task,
+                source: {
+                    type: (activeTaskData.origin || 'sidebar') as 'sidebar' | 'calendar' | 'kanban',
+                    data: active.data.current
+                },
+                target: {
+                    type: targetType,
+                    data: over.data.current
+                }
+            });
+
+            // Apply updates to database
+            await db.tasks.update(task.id, updates);
         }
     }
 

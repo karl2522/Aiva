@@ -5,7 +5,7 @@ export interface Task {
     title: string;
     description?: string;
     status: 'backlog' | 'planned' | 'in_progress' | 'blocked' | 'done';
-    listId: string; // 'personal', 'work', etc.
+    listId: string; // 'personal', 'work', etc. Empty string for virtual Inbox
     createdAt: Date;
     scheduledDate?: Date; // For calendar
     duration?: number; // In minutes
@@ -21,46 +21,36 @@ export interface TaskList {
     order: number;
 }
 
-const db = new Dexie('AivaDatabase') as Dexie & {
+const database = new Dexie('AivaDatabase') as Dexie & {
     tasks: EntityTable<Task, 'id'>;
     lists: EntityTable<TaskList, 'id'>;
 };
 
-// Schema
-db.version(1).stores({
-    tasks: 'id, listId, status, scheduledDate, order',
-    lists: 'id, order'
-});
-
-// Migration to version 2: Normalize status values for Kanban
-db.version(2).stores({
+// Schema v2 - Added Kanban status values
+database.version(2).stores({
     tasks: 'id, listId, status, scheduledDate, order',
     lists: 'id, order'
 }).upgrade(tx => {
+    // Migration: Update old status values to new Kanban-compatible values
     return tx.table('tasks').toCollection().modify(task => {
-        // Normalize old status values to new Kanban-compatible values
         if (task.status === 'todo') {
             task.status = 'backlog';
         } else if (task.status === 'in-progress') {
             task.status = 'in_progress'; // Normalize hyphen to underscore
-        } else if (task.status === 'done') {
-            task.status = 'done'; // No change
-        } else {
-            // Fallback for unknown/legacy statuses
+        } else if (!['backlog', 'planned', 'in_progress', 'blocked', 'done'].includes(task.status)) {
+            // Fallback for any unknown status
             task.status = 'backlog';
         }
     });
 });
 
-db.on('populate', () => {
-    db.lists.bulkAdd([
-        { id: 'inbox', name: 'Inbox', color: '#64748b', order: 0 },
-        { id: 'today', name: 'Today', color: '#22c55e', order: 1 },
-        { id: 'personal', name: 'Personal', color: '#3b82f6', order: 2 },
-        { id: 'work', name: 'Work', color: '#a855f7', order: 3 },
+// Initial population
+database.on('populate', () => {
+    database.lists.bulkAdd([
+        { id: 'today', name: 'Today', color: '#22c55e', order: 0 },
+        { id: 'personal', name: 'Personal', color: '#3b82f6', order: 1 },
+        { id: 'work', name: 'Work', color: '#a855f7', order: 2 },
     ]);
 });
 
-
-export { db };
-
+export const db = database;
