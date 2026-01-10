@@ -1,7 +1,8 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Sparkles, CheckCircle2, Clock, Zap } from "lucide-react"
+import { ArrowRight, Sparkles } from "lucide-react"
+import Link from "next/link"
 
 export function HeroSection() {
     return (
@@ -12,8 +13,11 @@ export function HeroSection() {
                     <div className="space-y-8 order-2 lg:order-1">
                         {/* Badge */}
                         <div className="inline-flex items-center gap-2 px-4 py-2 bg-muted rounded-full border border-border w-fit">
-                            <Sparkles className="w-4 h-4 text-accent" />
-                            <span className="text-sm text-muted-foreground font-medium">Powered by Advanced AI</span>
+                            <span className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                            </span>
+                            <span className="text-sm text-muted-foreground font-medium">Aiva is currently in public beta</span>
                         </div>
 
                         {/* Main Heading */}
@@ -28,26 +32,14 @@ export function HeroSection() {
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                            <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground text-base font-medium">
-                                Launch App <ArrowRight className="ml-2 w-5 h-5" />
-                            </Button>
+                            <Link href="/dashboard">
+                                <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground text-base font-medium cursor-pointer">
+                                    Launch App <ArrowRight className="ml-2 w-5 h-5" />
+                                </Button>
+                            </Link>
                         </div>
 
-                        {/* Features List */}
-                        <div className="space-y-3 pt-4">
-                            <div className="flex items-center gap-3">
-                                <CheckCircle2 className="w-5 h-5 text-accent flex-shrink-0" />
-                                <span className="text-sm text-muted-foreground">AI-powered task prioritization</span>
-                            </div>
-                            <div className="flex items-center gap-3">
-                                <Clock className="w-5 h-5 text-accent flex-shrink-0" />
-                                <span className="text-sm text-muted-foreground">Real-time deadline tracking</span>
-                            </div>
-                            <div className="flex items-center gap-3">
-                                <Zap className="w-5 h-5 text-accent flex-shrink-0" />
-                                <span className="text-sm text-muted-foreground">Instant productivity insights</span>
-                            </div>
-                        </div>
+
                     </div>
 
                     {/* Right Column - Dashboard Mockup */}
@@ -75,8 +67,8 @@ export function HeroSection() {
                                     <div className="flex-1 p-6 space-y-5">
                                         {/* Header */}
                                         <div className="space-y-2">
-                                            <h3 className="font-bold text-foreground text-lg">Tasks Today</h3>
-                                            <p className="text-xs text-muted-foreground">8 tasks • 3 prioritized by AI</p>
+                                            <h3 className="font-bold text-slate-900 text-lg">Tasks Today</h3>
+                                            <p className="text-xs text-gray-500">8 tasks • 3 prioritized by AI</p>
                                         </div>
 
                                         {/* Task Items */}
@@ -86,8 +78,8 @@ export function HeroSection() {
                                                 <div className="flex items-start gap-3">
                                                     <div className="w-2 h-2 rounded-full bg-red-500 mt-1.5 flex-shrink-0" />
                                                     <div className="flex-1 min-w-0">
-                                                        <p className="text-sm font-medium text-foreground truncate">Finalize Q1 Strategy</p>
-                                                        <p className="text-xs text-muted-foreground">Due in 2 hours • AI suggested</p>
+                                                        <p className="text-sm font-medium text-slate-900 truncate">Finalize Q1 Strategy</p>
+                                                        <p className="text-xs text-gray-500">Due in 2 hours • AI suggested</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -97,8 +89,8 @@ export function HeroSection() {
                                                 <div className="flex items-start gap-3">
                                                     <div className="w-2 h-2 rounded-full bg-amber-500 mt-1.5 flex-shrink-0" />
                                                     <div className="flex-1 min-w-0">
-                                                        <p className="text-sm font-medium text-foreground truncate">Design Review</p>
-                                                        <p className="text-xs text-muted-foreground">Due tomorrow • 60% complete</p>
+                                                        <p className="text-sm font-medium text-slate-900 truncate">Design Review</p>
+                                                        <p className="text-xs text-gray-500">Due tomorrow • 60% complete</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -108,8 +100,8 @@ export function HeroSection() {
                                                 <div className="flex items-start gap-3">
                                                     <div className="w-2 h-2 rounded-full bg-accent mt-1.5 flex-shrink-0" />
                                                     <div className="flex-1 min-w-0">
-                                                        <p className="text-sm font-medium text-foreground truncate">Email Client Follow-up</p>
-                                                        <p className="text-xs text-muted-foreground">This week • AI suggested</p>
+                                                        <p className="text-sm font-medium text-slate-900 truncate">Email Client Follow-up</p>
+                                                        <p className="text-xs text-gray-500">This week • AI suggested</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -129,15 +121,15 @@ export function HeroSection() {
                             {/* Floating Stats Card */}
                             <div className="absolute -bottom-8 -left-12 bg-white rounded-xl shadow-lg p-4 border border-border/50 w-40">
                                 <div className="text-center">
-                                    <p className="text-2xl font-bold text-foreground">42%</p>
-                                    <p className="text-xs text-muted-foreground mt-1">Productivity Boost</p>
+                                    <p className="text-2xl font-bold text-slate-900">42%</p>
+                                    <p className="text-xs text-gray-500 mt-1">Productivity Boost</p>
                                 </div>
                             </div>
 
                             {/* Floating Priority Chip */}
                             <div className="absolute top-8 -right-8 bg-white rounded-full shadow-lg p-3 border border-border/50 flex items-center gap-2">
                                 <div className="w-2 h-2 rounded-full bg-red-500" />
-                                <span className="text-xs font-medium text-foreground">High Priority</span>
+                                <span className="text-xs font-medium text-slate-900">High Priority</span>
                             </div>
                         </div>
                     </div>

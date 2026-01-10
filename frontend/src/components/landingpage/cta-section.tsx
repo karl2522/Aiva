@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
+import Link from "next/link"
 
 export function CTASection() {
     return (
@@ -12,9 +13,11 @@ export function CTASection() {
                     Join thousands of users who are already saving hours every week with intelligent task management.
                 </p>
                 <div className="flex justify-center pt-4">
-                    <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground text-base">
-                        Launch App <ArrowRight className="ml-2 w-5 h-5" />
-                    </Button>
+                    <Link href="/dashboard">
+                        <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground text-base cursor-pointer">
+                            Launch App <ArrowRight className="ml-2 w-5 h-5" />
+                        </Button>
+                    </Link>
                 </div>
             </div>
         </section>

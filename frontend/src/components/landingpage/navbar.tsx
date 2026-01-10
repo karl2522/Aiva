@@ -42,7 +42,9 @@ export default function Navbar() {
                         </div>
 
                         <div className="hidden md:flex items-center gap-3">
-                            <Button className="bg-accent hover:bg-accent/90 text-accent-foreground">Launch App</Button>
+                            <Link href="/dashboard">
+                                <Button className="bg-accent hover:bg-accent/90 text-accent-foreground cursor-pointer">Launch App</Button>
+                            </Link>
                         </div>
 
                         {/* Mobile Menu Toggle */}
@@ -80,7 +82,9 @@ export default function Navbar() {
                                 About
                             </Link>
                             <div className="flex flex-col gap-2 pt-2">
-                                <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">Launch App</Button>
+                                <Link href="/dashboard" className="w-full">
+                                    <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground cursor-pointer">Launch App</Button>
+                                </Link>
                             </div>
                         </div>
                     )}
