@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useLists } from "@/hooks/use-lists";
 import { useTheme } from "@/hooks/use-theme";
-import { Moon, Plus, Sun } from "lucide-react";
+import { ArrowLeft, Moon, Plus, Sun } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { CreateListDialog } from "./create-list-dialog";
 import { CreateTaskDialog } from "./create-task-dialog";
 import { InboxList } from "./inbox-list";
@@ -27,7 +28,12 @@ export function AppSidebar({ className, isOpen = true }: AppSidebarProps) {
         <div className={`flex flex-col h-full bg-slate-50/80 dark:bg-neutral-950 text-foreground w-80 border-r border-slate-200 dark:border-neutral-800 flex-shrink-0 transition-all duration-300 backdrop-blur-xl ${className}`}>
             {/* Header */}
             <div className="p-4 border-b border-slate-200 dark:border-neutral-800 flex items-center justify-between h-[65px] bg-slate-100/50 dark:bg-neutral-900/50">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
+                    <Link href="/">
+                        <Button variant="ghost" size="icon" className="h-8 w-8 -ml-2 text-muted-foreground hover:text-foreground cursor-pointer" title="Back to Home">
+                            <ArrowLeft className="h-4 w-4" />
+                        </Button>
+                    </Link>
                     <div className="relative w-8 h-8">
                         <Image
                             src="/aiva-logo.png"
@@ -100,11 +106,11 @@ export function AppSidebar({ className, isOpen = true }: AppSidebarProps) {
 
                     <div className="flex items-center gap-2 mb-2">
                         <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                        <h4 className="font-semibold text-foreground text-sm relative z-10">Aiva Cloud</h4>
+                        <h4 className="font-semibold text-foreground text-sm relative z-10">Desktop App</h4>
                     </div>
 
                     <p className="text-xs text-muted-foreground mb-3 relative z-10 leading-relaxed">
-                        Sync tasks across devices and unlock advanced AI scheduling.
+                        Experience Aiva natively on your device with offline mode and global shortcuts.
                     </p>
 
                     <Button size="sm" disabled className="w-full text-xs h-8 bg-muted dark:bg-neutral-800 text-muted-foreground border border-border dark:border-neutral-700 hover:bg-muted/80 disabled:opacity-100 relative z-10">
